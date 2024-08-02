@@ -78,6 +78,8 @@ resource "azurerm_service_plan" "app_plan" {
     tier = "Standard"
     size = "S1"
   }
+ maximum_elastic_worker_count = 1
+
 }
 resource "azurerm_windows_web_app" "appservice_app" {
   provider            = azurerm.subscription1
