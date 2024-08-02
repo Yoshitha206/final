@@ -2,17 +2,17 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.20.0" 
+      version = "~> 3.20.0"
     }
   }
 
-cloud {
-  hostname = "app.terraform.io"
-  organization = "yoshi1"
-  workspaces {
-   name = "new1_workspace"
+  cloud {
+    hostname = "app.terraform.io"
+    organization = "yoshi1"
+    workspaces {
+      name = "new1_workspace"
+    }
   }
- }
 }
 
 provider "azurerm" {
@@ -63,24 +63,24 @@ resource "azurerm_subnet" "subnet3" {
   address_prefixes     = ["10.0.3.0/24"]
 }
 
-resource "azurerm_service_plan" "app_plan" {
+resource "azurerm_app_service_plan" "app_plan" {
   provider            = azurerm.subscription1
   name                = "appserviceplan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku {
-    name = "P1v2"
-    tier = "Standard"
-    size = "S1"
+    tier = "PremiumV2"
+    size = "P1v2"
   }
+  maximum_elastic_worker_count = 1
 }
 
-resource "azurerm_app_service" "appservice_app" {
+resource "azurerm_windows_web_app" "appservice_app" {
   provider            = azurerm.subscription1
   name                = "appservice"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  app_service_plan_id = azurerm_service_plan.app_plan.id
+  service_plan_id     = azurerm_app_service_plan.app_plan.id
 
   site_config {
     always_on = true
@@ -101,9 +101,8 @@ resource "azurerm_mssql_managed_instance" "sql_mi" {
   administrator_login_password = "P@ssw0rd!"
   sku_name                    = "GP_Gen5"
   storage_size_in_gb          = 32
-   license_type                = "LicenseIncluded"
-   vcores                      = 4
-
+  license_type                = "LicenseIncluded"
+  vcores                      = 4
 }
 
 resource "azurerm_private_endpoint" "pe_webapp" {
@@ -115,7 +114,7 @@ resource "azurerm_private_endpoint" "pe_webapp" {
 
   private_service_connection {
     name                           = "webapp-psc"
-    private_connection_resource_id = azurerm_app_service.appservice_app.id
+    private_connection_resource_id = azurerm_windows_web_app.appservice_app.id
     is_manual_connection           = false
     subresource_names              = ["sites"]
   }
@@ -135,3 +134,4 @@ resource "azurerm_private_endpoint" "pe_sqlmi" {
     subresource_names              = ["sqlManagedInstance"]
   }
 }
+
