@@ -69,6 +69,7 @@ resource "azurerm_service_plan" "app_plan" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku {
+    name = "P1v2"
     tier = "Standard"
     size = "S1"
   }
