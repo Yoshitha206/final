@@ -71,7 +71,7 @@ resource "azurerm_subnet" "subnet3" {
 
 resource "azurerm_service_plan" "app_plan" {
   provider            = azurerm.subscription1
-  name                = "appserviceplan"
+  name                = "yoshithaappserviceplan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -108,7 +108,7 @@ resource "azurerm_mssql_managed_instance" "sql_mi" {
   sku_name                    = "GP_Gen5"
   storage_size_in_gb          = 32
   license_type                = "LicenseIncluded"
-  vcores                      = 4
+  vcores                      = 1
 }
 
 resource "azurerm_private_endpoint" "pe_webapp" {
