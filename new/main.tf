@@ -77,7 +77,7 @@ resource "azurerm_service_plan" "app_plan" {
 
   os_type             = "Windows"  # Specify "Windows" or "Linux" based on your needs
   sku_name            = "S1"       # Specify the SKU name directly
-  sku_tier            = "Standard" # Specify the SKU tier
+  #sku_tier            = "Standard" # Specify the SKU tier
   maximum_elastic_worker_count = 1
 }
 
