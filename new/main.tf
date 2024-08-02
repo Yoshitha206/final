@@ -83,7 +83,7 @@ resource "azurerm_service_plan" "app_plan" {
 
 resource "azurerm_windows_web_app" "appservice_app" {
   provider            = azurerm.subscription1
-  name                = "yoshi-webapp"  # Ensure this name is unique
+  name                = "yoshitha-webapp"  # Ensure this name is unique
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.app_plan.id  # Correct reference
