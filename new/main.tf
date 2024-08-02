@@ -108,7 +108,7 @@ resource "azurerm_mssql_managed_instance" "sql_mi" {
   sku_name                    = "GP_Gen5"
   storage_size_in_gb          = 32
   license_type                = "LicenseIncluded"
-  vcores                      = 0
+  #vcores                      = 0
 }
 
 resource "azurerm_private_endpoint" "pe_webapp" {
