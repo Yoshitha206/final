@@ -74,19 +74,19 @@ resource "azurerm_service_plan" "app_plan" {
   name                = "appserviceplan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
- maximum_elastic_worker_count = 1
 
+  os_type             = "Windows"  # Specify "Windows" or "Linux" based on your needs
+  sku_name            = "S1"       # Specify the SKU name directly
+  sku_tier            = "Standard" # Specify the SKU tier
+  maximum_elastic_worker_count = 1
 }
+
 resource "azurerm_windows_web_app" "appservice_app" {
   provider            = azurerm.subscription1
-  name                = "yoshi-webapp"
+  name                = "yoshi-webapp"  # Ensure this name is unique
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id     = azurerm_app_service_plan.app_plan.id
+  service_plan_id     = azurerm_service_plan.app_plan.id  # Correct reference
 
   site_config {
     always_on = true
