@@ -126,18 +126,18 @@ resource "azurerm_private_endpoint" "pe_webapp" {
   }
 }
 
-resource "azurerm_private_endpoint" "pe_sqlmi" {
-  provider            = azurerm.subscription1
-  name                = "pe-sqlmi"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  subnet_id           = azurerm_subnet.subnet3.id
+#resource "azurerm_private_endpoint" "pe_sqlmi" {
+ # provider            = azurerm.subscription1
+ # name                = "pe-sqlmi"
+ # location            = azurerm_resource_group.rg.location
+ # resource_group_name = azurerm_resource_group.rg.name
+ # subnet_id           = azurerm_subnet.subnet3.id
 
-  private_service_connection {
-    name                           = "sqlmi-psc"
-    private_connection_resource_id = azurerm_mssql_managed_instance.sql_mi.id
-    is_manual_connection           = false
-    subresource_names              = ["sqlManagedInstance"]
-  }
-}
+ # private_service_connection {
+   # name                           = "sqlmi-psc"
+   # private_connection_resource_id = azurerm_mssql_managed_instance.sql_mi.id
+    #is_manual_connection           = false
+   # subresource_names              = ["sqlManagedInstance"]
+  #}
+#}
 
