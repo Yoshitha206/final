@@ -97,19 +97,19 @@ resource "azurerm_windows_web_app" "appservice_app" {
   }
 }
 
-resource "azurerm_mssql_managed_instance" "sql_mi" {
-  provider                    = azurerm.subscription1
-  name                        = "example-sqlmi"
-  location                    = azurerm_resource_group.rg.location
-  resource_group_name         = azurerm_resource_group.rg.name
-  subnet_id                   = azurerm_subnet.subnet2.id
-  administrator_login         = "sqladmin"
-  administrator_login_password = "P@ssw0rd!"
-  sku_name                    = "GP_Gen5"
-  storage_size_in_gb          = 32
-  license_type                = "LicenseIncluded"
+#resource "azurerm_mssql_managed_instance" "sql_mi" {
+ # provider                    = azurerm.subscription1
+ # name                        = "example-sqlmi"
+ # location                    = azurerm_resource_group.rg.location
+ # resource_group_name         = azurerm_resource_group.rg.name
+ # subnet_id                   = azurerm_subnet.subnet2.id
+ # administrator_login         = "sqladmin"
+ # administrator_login_password = "P@ssw0rd!"
+ # sku_name                    = "GP_Gen5"
+#  storage_size_in_gb          = 32
+ # license_type                = "LicenseIncluded"
   #vcores                      = 0
-}
+#}
 
 resource "azurerm_private_endpoint" "pe_webapp" {
   provider            = azurerm.subscription1
