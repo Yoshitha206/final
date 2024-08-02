@@ -63,7 +63,7 @@ resource "azurerm_subnet" "subnet3" {
   address_prefixes     = ["10.0.3.0/24"]
 }
 
-resource "azurerm_app_service_plan" "app_plan" {
+resource "azurerm_service_plan" "app_plan" {
   provider            = azurerm.subscription1
   name                = "appserviceplan"
   location            = azurerm_resource_group.rg.location
@@ -79,7 +79,7 @@ resource "azurerm_app_service" "appservice_app" {
   name                = "appservice"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  app_service_plan_id = azurerm_app_service_plan.app_plan.id
+  app_service_plan_id = azurerm_service_plan.app_plan.id
 
   site_config {
     always_on = true
@@ -90,7 +90,7 @@ resource "azurerm_app_service" "appservice_app" {
   }
 }
 
-resource "azurerm_sql_managed_instance" "sql_mi" {
+resource "azurerm_mssql_managed_instance" "sql_mi" {
   provider                    = azurerm.subscription1
   name                        = "example-sqlmi"
   location                    = azurerm_resource_group.rg.location
@@ -98,7 +98,7 @@ resource "azurerm_sql_managed_instance" "sql_mi" {
   subnet_id                   = azurerm_subnet.subnet2.id
   administrator_login         = "sqladmin"
   administrator_login_password = "P@ssw0rd!"
-  sku_name                    = "GP_Gen5_2"
+  sku_name                    = "GP_Gen5"
   storage_size_in_gb          = 32
    license_type                = "LicenseIncluded"
    vcores                      = 4
@@ -129,7 +129,7 @@ resource "azurerm_private_endpoint" "pe_sqlmi" {
 
   private_service_connection {
     name                           = "sqlmi-psc"
-    private_connection_resource_id = azurerm_sql_managed_instance.sql_mi.id
+    private_connection_resource_id = azurerm_mssql_managed_instance.sql_mi.id
     is_manual_connection           = false
     subresource_names              = ["sqlManagedInstance"]
   }
