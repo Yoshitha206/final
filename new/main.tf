@@ -53,6 +53,12 @@ resource "azurerm_subnet" "subnet2" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet1.name
   address_prefixes     = ["10.0.2.0/24"]
+delegation {
+    name = "sql-mi-delegation"
+    service_delegation {
+      name = "Microsoft.Sql/managedInstances"
+    }
+  }
 }
 
 resource "azurerm_subnet" "subnet3" {
@@ -69,8 +75,8 @@ resource "azurerm_app_service_plan" "app_plan" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku {
-    tier = "PremiumV2"
-    size = "P1v2"
+    tier = "Standard"
+    size = "s1"
   }
   maximum_elastic_worker_count = 1
 }
