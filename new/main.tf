@@ -28,7 +28,7 @@ provider "azurerm" {
 resource "azurerm_resource_group" "rg" {
   provider = azurerm.subscription1
   name     = "rg-subscription1"
-  location = "West Europe"
+  location = "Central US"
 }
 
 resource "azurerm_virtual_network" "vnet1" {
