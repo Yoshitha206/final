@@ -126,7 +126,11 @@ resource "azurerm_sql_database" "sql_database" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   server_name         = azurerm_sql_server.sql_server.name
-  sku_name            = "S0"
+   sku {
+    name     = "S0"
+    tier     = "Standard"
+    capacity = 5
+  }
 }
 
 resource "azurerm_private_endpoint" "pe_webapp" {
