@@ -110,6 +110,24 @@ resource "azurerm_windows_web_app" "appservice_app" {
  # license_type                = "LicenseIncluded"
   #vcores                      = 0
 #}
+resource "azurerm_sql_server" "sql_server" {
+  provider            = azurerm.subscription1
+  name                = "example-sql-server"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  version             = "12.0"
+  administrator_login = "sqladmin"
+  administrator_login_password = "P@ssw0rd!"
+}
+
+resource "azurerm_sql_database" "sql_database" {
+  provider            = azurerm.subscription1
+  name                = "example-sql-database"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  server_name         = azurerm_sql_server.sql_server.name
+  sku_name            = "S0"
+}
 
 resource "azurerm_private_endpoint" "pe_webapp" {
   provider            = azurerm.subscription1
@@ -140,4 +158,18 @@ resource "azurerm_private_endpoint" "pe_webapp" {
    # subresource_names              = ["sqlManagedInstance"]
   #}
 #}
+resource "azurerm_private_endpoint" "pe_sql" {
+  provider            = azurerm.subscription1
+  name                = "pe-sql"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  subnet_id           = azurerm_subnet.subnet3.id
+
+  private_service_connection {
+    name                           = "sql-psc"
+    private_connection_resource_id = azurerm_sql_database.sql_database.id
+    is_manual_connection           = false
+    subresource_names              = ["sqlServer"]
+  }
+}
 
